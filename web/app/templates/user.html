@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+</head>
+
+<body>
+    {% block body %}
+        <h2 style="border-top:5em;">{{ username }}</h2>
+  
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for category, message in messages %}
+          <li class="{{ category }}" id= "{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  {% endblock body %}
+
+</body>
+
+</html>

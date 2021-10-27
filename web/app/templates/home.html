@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <head>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    
+  </head>
+  
+  <body>
+    <a href="{{ url_for ('home') }}">
+      <img src='https://th.bing.com/th/id/R.0e3783e4c478bc19310c4d1edc72fdf6?rik=%2bgdp0HhlKWAptg&pid=ImgRaw&r=0',width="50" height="50">
+      </a><br>
+    {% block body %}
+    <div id="content"></div>
+    <div id="footer">
+      <a href="{{ url_for ('info') }}">Info</a><br>
+      <a href="{{ url_for ('register') }}">Register</a><br>
+      <a href="{{ url_for ('login') }}">Login</a><br>
+      <a href="{{ url_for ('logout') }}">Logout</a>
+
+    {% endblock body %}
+    </div>
+  </body>
+  
+</html>

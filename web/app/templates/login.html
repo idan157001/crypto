@@ -1,0 +1,37 @@
+{% extends 'home.html' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+</head>
+
+<body>
+  {% block body %}
+    <form action="/login" method="post" >
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email"><br><br>
+
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password"><br><br>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
+        <input type="submit" value="Submit">
+    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for category, message in messages %}
+          <li class="{{ category }}" id= "{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+  {% endblock body %}
+
+</body>
+
+</html>
