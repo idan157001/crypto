@@ -2,7 +2,7 @@ from werkzeug.utils import redirect
 from app import app,db
 from flask import render_template,url_for,request,flash,session
 from app.models import Register
-from app.core import Login_user, Register_user
+from app.core import Login_user, Register_user,Crypto_Info
 import requests
 
 
@@ -99,6 +99,20 @@ def logout():
 def info():
     return render_template('info.html')
         
-app.route('/crypto',methods=['GET'])
+@app.route('/crypto',methods=['GET','POST'])
 def crypto():
-    return render_template('crypto.html')
+    if request.method == 'GET':
+        return render_template('crypto.html')
+    if request.method == 'POST':
+        c_name = request.form['currency']
+        if c_name in ('btc','eth'):
+            Crypto = Crypto_Info(c_name)
+            c_value = Crypto.get_price()
+            if c_value == 'Error':
+                return render_template('crypto.html',ERROR=True)
+            
+            c_value_ils = Crypto.price_ils(c_value)
+
+            return render_template('crypto.html',c_name=c_name,c_value=c_value,c_value_ils=c_value_ils)
+        else:
+            return render_template('crypto.html')

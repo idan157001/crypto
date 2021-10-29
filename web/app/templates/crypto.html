@@ -1,40 +1,31 @@
-<!--<head>
-    <title>My Site</title>
-    
-</head>
-<link rel="stylesheet" href="style.css">
-<div class='nav-list'>
-    <ul>
-        <li><a href="Test">test</a></li>
-        <li><a href="Test">gg</a></li>
-        <li><a href="Test">aa</a></li>
-    </ul>
-</div>
-<h1 style="text-align: center; font-size: 20; color:red;">Welcome to my site</h1>
-<div style="color: red;">
-    <p style="font-size: 40;"><span style="color: green;">aa</span>aa </p>
-    <p>vfvdfdfds </p>
-    <p>vfvdfdfds </p>
-</div>
-<div style="color: blue;">
-    <p>vfvdfdfds </p>
-    <p>vfvdfdfds </p>
-    <p>vfvdfdfds </p>
-</div>
-<div style="color: green;">
-
-    <p>vfvdfdfds </p>
-    <p>vfvdfdfds </p>
-    
-    <p>vfvdfdfds </p>
-</div>
-<marquee width="800" direction="right" behavior="alternate">AA</marquee>
--->
+{% extends 'home.html' %}
 <html>
-    <body style="color: blue;text-align: center;">
-    <p>Idan</p>
-    <p>Albam</p>
-    <p>Tikshuv</p>
-    <p>my name is idan</p>
+    {% block body %}
+    <body>
+        <div class='currency_info' style="color: blue;text-align: center;">
+        <h1>Pick crypto currency:</h1>
+
+        <form action="/crypto" method="post">
+            <select name="currency">
+                <option value="btc">Bitcoin</option>
+                <option value="eth">Etherium</option>
+            </select>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
+            <input type="submit" value="Submit">
+        </form>
+        </div>
+        {% if ERROR %}
+            <h3 style="text-align: center;">Something went wrong try later</h3>
+        {% else %}
+
+            {% if c_name %}
+                <h2 style="color:blue">{{ c_name.title() }}</h2>
+                <h3>{{ c_value }}$ USD</h3>
+                <h3>{{ c_value_ils }}$ ILS</h3>
+            {% endif %}
+        {% endif %}
+            
+    {% endblock body %}
     </body>
 </html>

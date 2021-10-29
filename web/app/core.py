@@ -1,6 +1,10 @@
 from app.models import *
 from hashlib import sha224
 import re
+import requests
+import json
+
+        
 
 class Register_user():
     def __init__(self,username,password,email):
@@ -42,6 +46,28 @@ class Login_user():
             return False
         else:
             if object.email == self.email:
-                if  object.password == self.password:
+                if object.password == self.password:
                     return object.username
             return False
+class Crypto_Info:
+    def __init__(self,currency):
+        self.currency = currency
+
+    def get_price(self):
+        try:
+            r = requests.get(f"http://data.messari.io/api/v1/assets/{self.currency}/metrics")
+            r = json.loads(r.text)
+            price = r['data']['market_data']['price_usd']
+            return round(price,2)        
+        except Exception as e:
+            print(e)
+            return 'Error'  
+    
+    def price_ils(self,c_usd):
+        try:
+            r = requests.get('https://free.currconv.com/api/v7/convert?q=USD_ILS&compact=ultra&apiKey=a466c0450b716680bf56')
+            r = json.loads(r.text)
+            return round(float(r['USD_ILS'])*float(c_usd),2)
+        except Exception as e:
+            print('e')
+            return 'Error'  

@@ -8,3 +8,4 @@ class Register(db.Model):
 
     def __repr__(self):
         return f'ID: {self.id}'
+

@@ -15,9 +15,14 @@
     <div id="content"></div>
     <div id="footer">
       <a href="{{ url_for ('info') }}">Info</a><br>
-      <a href="{{ url_for ('register') }}">Register</a><br>
+      <a href="{{ url_for ('crypto') }}">Crpyto</a><br>
+
       <a href="{{ url_for ('login') }}">Login</a><br>
-      <a href="{{ url_for ('logout') }}">Logout</a>
+      <a href="{{ url_for ('register') }}">Register</a><br>
+
+      {% if 'username' in session %}
+        <a href="{{ url_for ('logout') }}">Logout</a>
+      {% endif %}
 
     {% endblock body %}
     </div>
