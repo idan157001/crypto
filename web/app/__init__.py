@@ -11,7 +11,7 @@ csrf = CSRFProtect()
 csrf.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.secret_key = b'dwa156dwa1d56a1fa61@'
-app.permanent_session_lifetime = timedelta(seconds=30)
+app.permanent_session_lifetime = timedelta(minutes=3)
 db = SQLAlchemy(app)
 
 

@@ -116,3 +116,19 @@ def crypto():
             return render_template('crypto.html',c_name=c_name,c_value=c_value,c_value_ils=c_value_ils)
         else:
             return render_template('crypto.html')
+
+@app.route('/wallet',methods=['GET','POST'])
+def wallet():
+    if request.method == 'GET':
+        return render_template('wallet.html')
+    if request.method == 'POST':
+        currency = request.form['currency']
+        bought_price = request.form['bought_price']
+        sell_price = request.form['sell_price']
+
+        c = Crypto_Info(currency)
+        caculated = c.caculate(bought_price,sell_price)
+        if caculated is False:
+            return render_template('wallet.html')
+
+        return render_template('wallet.html',precent=caculated[0],earn=caculated[1])

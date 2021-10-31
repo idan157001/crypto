@@ -71,3 +71,14 @@ class Crypto_Info:
         except Exception as e:
             print('e')
             return 'Error'  
+    def caculate(self,bought,sell):
+        try:
+            bought = float(bought)
+            sell = float(sell)
+        except:
+            return False
+
+        precent = (((bought/sell) * 100) -100) * -1
+        earn = 0
+        return (round(precent,2),earn)
+    
