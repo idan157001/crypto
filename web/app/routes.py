@@ -125,9 +125,10 @@ def wallet():
         currency = request.form['currency']
         bought_price = request.form['bought_price']
         sell_price = request.form['sell_price']
+        my_invest = request.form['my_invest']
 
         c = Crypto_Info(currency)
-        caculated = c.caculate(bought_price,sell_price)
+        caculated = c.caculate(my_invest,bought_price,sell_price)
         if caculated is False:
             return render_template('wallet.html')
 
