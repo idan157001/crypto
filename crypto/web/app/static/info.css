@@ -1,0 +1,12 @@
+.ttt h1{
+    color: black;
+    text-align: center;
+}
+                   
+.content {
+    text-align: right;
+}
+.content h2,h3,h4{
+    color:brown;
+    text-align: right;
+}
