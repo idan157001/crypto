@@ -126,7 +126,11 @@ def profit():
         sell_price = request.form['sell_price']
         my_invest = request.form['my_invest']
 
+<<<<<<< HEAD
         c = Crypto_Info(None)
+=======
+        c = Crypto_Info(currency)
+>>>>>>> 07b3b92aff80da424f6f07d7b10c35372da1f3d7
         caculated = c.caculate(my_invest,bought_price,sell_price)
         if caculated is False:
             return render_template('profit.html')
