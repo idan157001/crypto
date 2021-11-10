@@ -4,7 +4,7 @@ from flask import render_template,url_for,request,flash,session
 from app.models import Register
 from app.core import Login_user, Register_user,Crypto_Info
 import requests
-
+import json # delete it
 
 
 #----------------------------------------
@@ -117,18 +117,25 @@ def crypto():
         else:
             return render_template('crypto.html')
 
-@app.route('/wallet',methods=['GET','POST'])
-def wallet():
+@app.route('/profit',methods=['GET','POST'])
+def profit():
     if request.method == 'GET':
-        return render_template('wallet.html')
+        return render_template('profit.html')
     if request.method == 'POST':
-        currency = request.form['currency']
         bought_price = request.form['bought_price']
         sell_price = request.form['sell_price']
+        my_invest = request.form['my_invest']
 
-        c = Crypto_Info(currency)
-        caculated = c.caculate(bought_price,sell_price)
+        c = Crypto_Info(None)
+        caculated = c.caculate(my_invest,bought_price,sell_price)
         if caculated is False:
-            return render_template('wallet.html')
+            return render_template('profit.html')
 
-        return render_template('wallet.html',precent=caculated[0],earn=caculated[1])
+        return render_template('profit.html',precent=caculated[0],earn=caculated[1])
+
+"""@app.route('test',methods=['GET'])
+async def test():
+    r = await(requests.get(f"http://data.messari.io/api/v1/assets/eth/metrics"))
+    r = json.loads(r.text)
+    price = r['data']['market_data']['price_usd']
+    return round(price,2)  """

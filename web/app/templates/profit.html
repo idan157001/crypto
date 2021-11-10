@@ -4,17 +4,10 @@
     <body>
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <div class='currency_info' style="color: blue;text-align: center;">
-        <h1>My wallet:</h1>
+        <h1>My Profit:</h1>
         <div class=test style="float: left;">
-            <form method='POST',action='/wallet'>
-                <select name="currency">
-                    <option value="btc">Bitcoin</option>
-                    <option value="eth">Etherium</option>
-                </select><br>
-                <select name="coin">
-                    <option value="usd">USD</option>
-                    <option value="isl">ISL</option>
-                </select><br>
+            <form method='POST',action='/profit'>
+                My Invest    <input type="text" name="my_invest" placeholder="Enter Your invest">
                 Bought price <input type="text" name="bought_price" placeholder="Enter bought price"><br>
                 Sell price   <input type="text" name="sell_price" placeholder="Enter Selling price">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

@@ -16,9 +16,11 @@
     <div id="footer">
       <a href="{{ url_for ('info') }}">Info</a><br>
       <a href="{{ url_for ('crypto') }}">Crpyto</a><br>
+      <a href="{{ url_for ('profit') }}">Profit</a><br>
       {% if 'username' not in session %}
         <a href="{{ url_for ('login') }}">Login</a><br>
         <a href="{{ url_for ('register') }}">Register</a><br>
+
       {% endif %}
 
       {% if 'username' in session %}
