@@ -4,8 +4,10 @@ from flask import render_template,url_for,request,flash,session
 from app.models import Register
 from app.core import Login_user, Register_user,Crypto_Info
 import requests
-import json # delete it
-
+import asyncio
+import json
+import aiohttp
+import time
 
 #----------------------------------------
 
@@ -133,9 +135,14 @@ def profit():
 
         return render_template('profit.html',precent=caculated[0],earn=caculated[1])
 
-"""@app.route('test',methods=['GET'])
+@app.route('/test',methods=['GET'])
 async def test():
-    r = await(requests.get(f"http://data.messari.io/api/v1/assets/eth/metrics"))
-    r = json.loads(r.text)
-    price = r['data']['market_data']['price_usd']
-    return round(price,2)  """
+    start = time.time()
+    async with aiohttp.ClientSession() as session:
+        r = await session.get("http://data.messari.io/api/v1/assets/eth/metrics",ssl=False)
+        
+        r = await r.json()
+        price = r['data']['market_data']['price_usd']
+        stop = time.time()
+        return (f"a {price}") 
+
