@@ -69,7 +69,7 @@ class Crypto_Info:
             r = json.loads(r.text)
             return round(float(r['USD_ILS'])*float(c_usd),2)
         except Exception as e:
-            print('e')
+            print(e)
             return 'Error'  
     def caculate(self,invest,bought,sell):
         try:

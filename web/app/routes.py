@@ -84,7 +84,7 @@ def login():
             session['username'] = user_allow_login
             return redirect(url_for('user'))
         else:
-            flash('Wrong','error')
+            flash('Email or password is wrong.','error')
             return render_template('login.html')
 
 @app.route('/logout',methods=['GET'])
@@ -135,14 +135,12 @@ def profit():
 
         return render_template('profit.html',precent=caculated[0],earn=caculated[1])
 
-@app.route('/test',methods=['GET'])
-async def test():
-    start = time.time()
-    async with aiohttp.ClientSession() as session:
-        r = await session.get("http://data.messari.io/api/v1/assets/eth/metrics",ssl=False)
-        
-        r = await r.json()
-        price = r['data']['market_data']['price_usd']
-        stop = time.time()
-        return (f"a {price}") 
 
+
+@app.route("/galary",methods=['GET'])
+def galary():
+    return render_template("galary.html")
+    
+@app.errorhandler(404)
+def page_not_found(x):
+    return render_template("error.html"),404
