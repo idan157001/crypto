@@ -1,6 +1,9 @@
 body{
   background-color: lightblue;
 }
+.home{
+  background-image: url('https://images1.calcalist.co.il/PicServer3/2020/11/24/1038538/4_l.jpg');
+}
 .error{
     color:red
 }

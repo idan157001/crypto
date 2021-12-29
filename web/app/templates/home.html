@@ -12,25 +12,30 @@
       <img src='https://th.bing.com/th/id/R.0e3783e4c478bc19310c4d1edc72fdf6?rik=%2bgdp0HhlKWAptg&pid=ImgRaw&r=0',width="50" height="50">
       </a>
     {% block body %}
-    <div id="content"></div>
-    <div class="links">
-      <a href="{{ url_for ('info') }}">Info</a>
-      <a href="{{ url_for ('crypto') }}">Crpyto</a>
-      <a href="{{ url_for ('profit') }}">Profit</a>
-      <a href="{{ url_for ('galary') }}">Galary</a>
-      {% if 'username' not in session %}
-        <a href="{{ url_for ('login') }}">Login</a>
-        <a href="{{ url_for ('register') }}">Register</a>
+    <body  style="background-image: url('https://images1.calcalist.co.il/PicServer3/2020/11/24/1038538/4_l.jpg'); background-size: cover;">
+    
+      
+      <div class="links">
+        <a href="{{ url_for ('info') }}">Info</a>
+        {% if 'username' not in session %}
+          <a href="{{ url_for ('login') }}">Login</a>
+          <a href="{{ url_for ('register') }}">Register</a>
 
-      {% endif %}
+        {% endif %}
 
-      {% if 'username' in session %}
-        <a href="{{ url_for ('logout') }}">Logout</a>
-      {% endif %}
-      <br>
+        {% if 'username' in session %}
+          <a href="{{ url_for ('user') }}">User</a>
+          <a href="{{ url_for ('crypto') }}">Crpyto</a>
+          <a href="{{ url_for ('profit') }}">Profit</a>
+          <a href="{{ url_for ('galary') }}">Galary</a>
+          <a href="{{ url_for ('logout') }}">Logout</a>
+        {% endif %}
+        <br>
+      </div>
+      
     </div>
-    <br><br>
-    <img src="https://images1.calcalist.co.il/PicServer3/2020/11/24/1038538/4_l.jpg">
+      <br><br>
+    
     {% endblock body %}
   </body>
   

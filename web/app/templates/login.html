@@ -11,12 +11,21 @@
 
 <body>
   {% block body %}
+  <script>
+  document.getElementsByName('email').addEventListener('input', function(e) {
+    if (e.target.value.length > 1) {
+      console.log('bigger then one');
+    }
+    else {
+      console.log('0');
+    }
+  });</script>
     <form action="/login" method="post" >
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email"><br><br>
+        <input type="text" id="email" name="email" required><br><br>
 
         <label for="password">Password:</label>
-        <input type="text" id="password" name="password"><br><br>
+        <input type="text" id="password" name="password" required><br><br>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         
         <input type="submit" value="Submit">

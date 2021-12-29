@@ -40,6 +40,9 @@ def register():
         valid_email = user.valid_email()
         enc_password = user.encrypt_password()
         check_uniqe = user.check_uniqe()
+        if len(password) <4:
+            flash('Password must be at least 4 characters','error')
+            return render_template('register.html')
         if not valid_email:
             flash('Email is not valid.','error')
             return render_template('register.html')
@@ -103,44 +106,49 @@ def info():
         
 @app.route('/crypto',methods=['GET','POST'])
 def crypto():
-    if request.method == 'GET':
-        return render_template('crypto.html')
-    if request.method == 'POST':
-        c_name = request.form['currency']
-        if c_name in ('btc','eth'):
-            Crypto = Crypto_Info(c_name)
-            c_value = Crypto.get_price()
-            if c_value == 'Error':
-                return render_template('crypto.html',ERROR=True)
-            
-            c_value_ils = Crypto.price_ils(c_value)
-
-            return render_template('crypto.html',c_name=c_name,c_value=c_value,c_value_ils=c_value_ils)
-        else:
+    if 'username' in session:
+        if request.method == 'GET':
             return render_template('crypto.html')
+        if request.method == 'POST':
+            c_name = request.form['currency']
+            if c_name in ('btc','eth'):
+                Crypto = Crypto_Info(c_name)
+                c_value = Crypto.get_price()
+                if c_value == 'Error':
+                    return render_template('crypto.html',ERROR=True)
+                
+                c_value_ils = Crypto.price_ils(c_value)
+
+                return render_template('crypto.html',c_name=c_name,c_value=c_value,c_value_ils=c_value_ils)
+            else:
+                return render_template('crypto.html')
+    
+    return render_template("error.html"),404
 
 @app.route('/profit',methods=['GET','POST'])
 def profit():
-    if request.method == 'GET':
-        return render_template('profit.html')
-    if request.method == 'POST':
-        bought_price = request.form['bought_price']
-        sell_price = request.form['sell_price']
-        my_invest = request.form['my_invest']
-
-        c = Crypto_Info(None)
-        caculated = c.caculate(my_invest,bought_price,sell_price)
-        if caculated is False:
+    if 'username' in session:
+        if request.method == 'GET':
             return render_template('profit.html')
+        if request.method == 'POST':
+            bought_price = request.form['bought_price']
+            sell_price = request.form['sell_price']
+            my_invest = request.form['my_invest']
 
-        return render_template('profit.html',precent=caculated[0],earn=caculated[1])
+            c = Crypto_Info(None)
+            caculated = c.caculate(my_invest,bought_price,sell_price)
+            if caculated is False:
+                return render_template('profit.html')
 
+            return render_template('profit.html',precent=caculated[0],earn=caculated[1])
+    return render_template("error.html"),404
 
 
 @app.route("/galary",methods=['GET'])
 def galary():
-    return render_template("galary.html")
-    
+    if 'username' in session:
+        return render_template("galary.html")
+    return render_template("error.html"),404
 @app.errorhandler(404)
 def page_not_found(x):
     return render_template("error.html"),404
