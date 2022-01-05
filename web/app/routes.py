@@ -83,9 +83,14 @@ def login():
         
         user = Login_user(email,password)
         user_allow_login = user.login_check()
+        email_valid_check = user.valid_email()
+        
         if user_allow_login is not False:
             session['username'] = user_allow_login
             return redirect(url_for('user'))
+        if email_valid_check == False:
+            flash('Email is not valid.','error')
+            return render_template('login.html')
         else:
             flash('Email or password is wrong.','error')
             return render_template('login.html')

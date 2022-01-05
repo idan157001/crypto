@@ -35,7 +35,7 @@ class Register_user():
             return 'Username already in use.'
 
 
-class Login_user():
+class Login_user(Register_user):
     def __init__(self,email,password):
         self.email = email
         self.password = (sha224(password.encode())).hexdigest()
@@ -49,6 +49,7 @@ class Login_user():
                 if object.password == self.password:
                     return object.username
             return False
+
 class Crypto_Info:
     def __init__(self,currency):
         self.currency = currency

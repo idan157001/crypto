@@ -11,24 +11,39 @@
 
 <body>
   {% block body %}
-  <script>
-  document.getElementsByName('email').addEventListener('input', function(e) {
-    if (e.target.value.length > 1) {
-      console.log('bigger then one');
+<script>
+  function submit_check(){
+    var email = document.getElementById("email").value.length;
+    var password = document.getElementById("password").value.length;
+    if (email < 0 || password < 0){
+      var submit_help = document.getElementById("submit_help")
+      submit_help.innerHTML="Error";
     }
-    else {
-      console.log('0');
+    else{
+      
+      document.getElementById("submit").disabled=false;
     }
-  });</script>
-    <form action="/login" method="post" >
+    
+  }
+  function is_clicked(){
+    var submit = document.getElementById("submit").disabled=false;
+  }
+</script>  
+
+    <br><br><form action="/login" method="post" >
+      
         <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required><br><br>
+        <input type="text" id="email" name="email">
+        <input type="hidden" id="email_helper" name="email_helper" oninput="submit_check()"><br><br>
 
         <label for="password">Password:</label>
-        <input type="text" id="password" name="password" required><br><br>
+        <input type="text" id="password" name="password" oninput="submit_check()"><br><br>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         
-        <input type="submit" value="Submit">
+        <input class="button" type="submit" id="submit" value="Submit"disabled>
+        
+        <p id="submit_help" style="display: inline-block;"></p><br><br>
+
     </form>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
