@@ -7,10 +7,12 @@
 
 
 
+
 </head>
 
 <body>
     {% block body %}
+        <p id="gg">x</p>
         <h2 style="border-top:5em;">{{ username }}</h2>
   
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -22,6 +24,18 @@
         </ul>
       {% endif %}
     {% endwith %}
+    <script>
+      const time = new Date().getHours();
+      let msg;
+      if (time < 10){
+        msg = "Good Morning";
+      }else if (time < 20){
+        msg = "Good Day";
+      }else {
+        msg = "Good Evening";
+      }
+      document.getElementById("gg").innerHTML = msg;
+      </script>
   {% endblock body %}
 
 </body>
