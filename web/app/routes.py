@@ -128,7 +128,7 @@ def crypto():
             else:
                 return render_template('crypto.html')
     
-    return render_template("error.html"),404
+    return redirect(url_for('home'))
 
 @app.route('/profit',methods=['GET','POST'])
 def profit():
@@ -146,14 +146,15 @@ def profit():
                 return render_template('profit.html')
 
             return render_template('profit.html',precent=caculated[0],earn=caculated[1])
-    return render_template("error.html"),404
+    return redirect(url_for('home'))
 
 
 @app.route("/galary",methods=['GET'])
 def galary():
     if 'username' in session:
         return render_template("galary.html")
-    return render_template("error.html"),404
+    return redirect(url_for('home'))
+
 @app.errorhandler(404)
 def page_not_found(x):
     return render_template("error.html"),404

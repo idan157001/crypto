@@ -12,8 +12,9 @@
 
 <body>
     {% block body %}
-        <p id="gg">x</p>
-        <h2 style="border-top:5em;">{{ username }}</h2>
+        <p id="day"></p>
+        <h3 id="welcome" style="border-top:5em;display: inline;"></h3>
+        <h2 style="border-top:5em;display: inline;color:red;">{{ username }}</h2>
   
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -34,7 +35,16 @@
       }else {
         msg = "Good Evening";
       }
-      document.getElementById("gg").innerHTML = msg;
+      document.getElementById("welcome").innerHTML = msg;
+      </script>
+
+      <script>
+        const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const d = new Date();
+        let day = weekday[d.getDay()];
+
+        document.getElementById("day").innerHTML = "Today is "+ day;
+        
       </script>
   {% endblock body %}
 
