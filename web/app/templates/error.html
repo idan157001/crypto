@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
   <head>
@@ -8,6 +9,9 @@
   
   <body>
     {% block body %}
+    <a href="{{ url_for ('home') }}">
+      <img src='https://th.bing.com/th/id/R.0e3783e4c478bc19310c4d1edc72fdf6?rik=%2bgdp0HhlKWAptg&pid=ImgRaw&r=0',width="50" height="50">
+      </a>
     <marquee direction="right" scrollamount="8" style="border:solid black; background-color: gray;"><h1>Page Not Found</h1></marquee>
     <img width="1900" height="950" src="https://image.freepik.com/free-vector/glitch-error-404-page_23-2148105404.jpg"></img>
     {% endblock body %}

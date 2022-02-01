@@ -2,30 +2,59 @@
 <html>
     {% block body %}
     <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script>
+            function loader(){
+                console.log(22);
+                var len = document.getElementById("loading").innerText.length;
+                if (len == 0){
+                    document.getElementById("price_info").innerHTML="";
+                    $("#loading").append('<div id="loader-wrapper"><div id="loader"></div></div><h1>Loading...</h1>');}
+            }
+        </script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='loader.css') }}">
         <div class='currency_info' style="color: blue;text-align: center;">
         <h1>Pick crypto currency:</h1>
 
         <form action="/crypto" method="post">
-            <select name="currency">
+            <select name="currency" style="color: blue;text-align: center;">
                 <option value="btc">Bitcoin</option>
                 <option value="eth">Etherium</option>
             </select>
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         
-            <input type="submit" value="Submit">
+            <input type="submit" onclick="loader()" value="Get Price">
+            <p id="loading"></p>
         </form>
         </div>
         {% if ERROR %}
             <h3 style="text-align: center;">Something went wrong try later</h3>
         {% else %}
+            
 
             {% if c_name %}
-                <h2 style="color:blue">{{ c_name.title() }}</h2>
-                <h3>{{ c_value }}$ USD</h3>
-                <h3>{{ c_value_ils }}$ ILS</h3>
+                {% if c_name == "btc" %}
+                    {% set icon = "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png" %}
+                {% elif c_name == "eth" %}
+                    {% set icon = "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" %}
+                {% endif %}
+                  
+                <div id="price_info" style="text-align: center;">
+                    <img src="{{ icon }}">
+                    <h2 style="color:blue">{{ c_name.title() }}</h2>
+                    <h3>{{ c_value }}$ USD</h3>
+                    <h3>{{ c_value_ils }}$ ILS</h3>
+                    
+                </div>
             {% endif %}
+
         {% endif %}
-            
+
+
+        {% if spam %}
+            <p style="text-align: center; color: red;">Dont spam the button!</p>
+            {% endif %}
     {% endblock body %}
     </body>
 </html>

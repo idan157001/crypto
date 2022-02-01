@@ -1,5 +1,5 @@
 from werkzeug.utils import redirect
-from app import app,db
+from app import app,db,limiter
 from flask import render_template,url_for,request,flash,session
 from app.models import Register
 from app.core import Login_user, Register_user,Crypto_Info
@@ -8,6 +8,8 @@ import asyncio
 import json
 import aiohttp
 import time
+from datetime import timedelta
+
 
 #----------------------------------------
 
@@ -110,6 +112,7 @@ def info():
     return render_template('info.html')
         
 @app.route('/crypto',methods=['GET','POST'])
+@limiter.limit("1/second",methods=["POST"])
 def crypto():
     if 'username' in session:
         if request.method == 'GET':
@@ -131,6 +134,7 @@ def crypto():
     return redirect(url_for('home'))
 
 @app.route('/profit',methods=['GET','POST'])
+@limiter.limit("1/second",methods=["POST"],error_message="aa")
 def profit():
     if 'username' in session:
         if request.method == 'GET':
@@ -155,6 +159,25 @@ def galary():
         return render_template("galary.html")
     return redirect(url_for('home'))
 
+@app.before_request
+def before_request_func():
+    if "username" in session and "csrf_token" not in session:
+        return redirect("/login")
+    #session.permanent = True
+    #app.permanent_session_lifetime = timedelta(minutes=3)
+@app.errorhandler(429)
+def page_not_found(x):
+    
+    if request.url.split("/")[-1] == "profit":
+        print("profit")
+        return render_template("profit.html",spam=True),429
+    elif request.url.split("/")[-1] == "crypto":
+        return render_template("crypto.html",spam=True),429
+
+@app.errorhandler(400)
+def page_not_found(x):
+    if "csrf_token" not in session:
+        return render_template("login.html"),400
 @app.errorhandler(404)
 def page_not_found(x):
     return render_template("error.html"),404
