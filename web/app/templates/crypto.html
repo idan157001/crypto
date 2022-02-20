@@ -6,10 +6,12 @@
 
         <script>
             function loader(){
-                console.log(22);
                 var len = document.getElementById("loading").innerText.length;
-                if (len == 0){
-                    document.getElementById("price_info").innerHTML="";
+                if(len == 0 ){
+                    var price_info = document.getElementById("price_info")
+                    if (price_info){
+                        price_info.innerHTML="";
+                    }
                     $("#loading").append('<div id="loader-wrapper"><div id="loader"></div></div><h1>Loading...</h1>');}
             }
         </script>

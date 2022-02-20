@@ -3,7 +3,7 @@
   <head>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>{% block title %}{% endblock %} - My Webpage</title>
+    <title>{% block title %}{% endblock %}</title>
     
   </head>
   
@@ -22,10 +22,9 @@
         {% endif %}
 
         {% if 'username' in session %}
-          <a href="{{ url_for ('user') }}">User</a>
           <a href="{{ url_for ('crypto') }}">Crpyto</a>
+          <a href="{{ url_for ('items') }}">Wallet</a>
           <a href="{{ url_for ('profit') }}">Profit</a>
-          <a href="{{ url_for ('galary') }}">Galary</a>
           <a href="{{ url_for ('logout') }}">Logout</a>
         {% endif %}
         <br>

@@ -11,8 +11,8 @@ limiter = Limiter(app, key_func=get_remote_address)
 csrf = CSRFProtect()
 csrf.init_app(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-app.secret_key = b'dwafeafeagfaeg156!#$%^$1156dwa1d56a1fa61@'
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.secret_key = b'd0w978975afeaf$eag&faeg156!#$%^$1156dwa1d56a1fa61@'
+app.permanent_session_lifetime = timedelta(minutes=10)
 db = SQLAlchemy(app)
 
 

@@ -22,6 +22,9 @@
     </body>
     {% if spam %}
             <p style="text-align: center; color: red;">Dont spam the button!</p>
-            {% endif %}
+    {% endif %}
+    {% if error %}
+            <p style="text-align: center; color: red;">Wrong Input</p>
+    {% endif %}
     {% endblock body %}
 </html>
