@@ -1,0 +1,65 @@
+{% extends 'home.html' %}
+
+
+{% block body %}
+
+<br><br><form action="/items" method="post" >
+
+    <label>Pick The Coin </label><br>
+    <select name="currency" style="color: blue;text-align: center; width: 10%;">
+        <option value="btc">Bitcoin</option>
+        <option value="eth">Etherium</option>
+    </select><br><br>
+    <label>The Amount</label><br>
+    <input type="text" id="amount" name= "amount" placeholder="Enter The Amount" name="amount"><p style="display: inline;"></p><br><br>
+    <label>Bought Price</label><br>
+    <input type="text" id="bought" name="bought" placeholder="Enter The Bought Price" name="bought"><p style="display: inline;">USD</p><br><br>
+
+
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    
+    <input class="button" type="submit" id="submit" value="Add">
+    
+    <p id="submit_help" style="display: inline-block;"></p><br><br>
+
+</form>
+
+<table>
+    <tr>
+        <th>Coin</th>
+        <th>Amount</th>
+        <th>Bought</th>
+        <th>Profit</th>
+        
+    </tr>
+    
+        <tr>{% if object %}
+                {% for items in object%}
+                
+                {% for item in items%}
+                    
+                    {% if item != items[0] %}
+                        <th>{{item}}</th>
+                    
+                    
+                    {% endif %}
+                    {% endfor %}
+                    <th>{{profit}}</th>
+                    <th><a href="items/delete/{{items[0]}}"><button style="color: white; background-color: red;">Delete</button></a></th>
+                </tr>
+                {% endfor %}
+            {% endif %}
+         
+            
+</table>   
+
+        
+    
+{% if error %}
+    <p style="color:red">{{ error }}</p>        
+{% endif %}
+
+{% if spam %}
+            <p style="text-align: center; color: red;">Dont spam the button!</p>
+{% endif %}
+{% endblock body %}

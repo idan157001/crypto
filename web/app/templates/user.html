@@ -1,0 +1,53 @@
+{% extends 'home.html' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+</head>
+
+<body>
+    {% block body %}
+        <p id="day"></p>
+        <h3 id="welcome" style="border-top:5em;display: inline;"></h3>
+        <h2 style="border-top:5em;display: inline;color:red;">{{ username }}</h2>
+  
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for category, message in messages %}
+          <li class="{{ category }}" id= "{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <script>
+      const time = new Date().getHours();
+      let msg;
+      if (time < 10){
+        msg = "Good Morning";
+      }else if (time < 20){
+        msg = "Good Day";
+      }else {
+        msg = "Good Evening";
+      }
+      document.getElementById("welcome").innerHTML = msg;
+      </script>
+
+      <script>
+        const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const d = new Date();
+        let day = weekday[d.getDay()];
+
+        document.getElementById("day").innerHTML = "Today is "+ day;
+        
+      </script>
+  {% endblock body %}
+
+</body>
+
+</html>
