@@ -1,19 +1,20 @@
-from tkinter.tix import Tree
 from werkzeug.utils import redirect
 from app import app,db,limiter
 from flask import render_template,url_for,request,flash,session,escape
 from app.models import Register,Info
-from app.core import Get_Items, Login_user, Register_user,Crypto_Info
+from app.core import Get_Items, Login_user, Register_user,Crypto_Info,update_price_coin_db
 import requests
 import asyncio
 import json
-import aiohttp
 import time
 from datetime import timedelta
-
+import threading
 
 #----------------------------------------
 
+
+t = threading.Thread(target=update_price_coin_db,daemon=True)
+t.start()
 
 @app.route('/',methods=['GET'])
 @app.route('/home',methods=['GET',])
@@ -43,6 +44,7 @@ def register():
         valid_email = user.valid_email()
         enc_password = user.encrypt_password()
         check_uniqe = user.check_uniqe()
+
         if len(password) <4:
             flash('Password must be at least 4 characters','error')
             return render_template('register.html')
@@ -54,6 +56,7 @@ def register():
 
             flash(user.check_uniqe(),'error')
             return render_template('register.html')
+            
         else:
              new_user = Register(username=username,password=enc_password,email=email)
              db.session.add(new_user)
@@ -173,9 +176,10 @@ def items():
         classs = Get_Items(username)
 
         obj = classs.fetch_items_from_db()   
-
+        
         if request.method == "GET":    
-            
+            if obj is False:
+                return render_template("items.html",error="Something went wrong")    
 
             return render_template("items.html",object=obj[0],profit=obj[1])
 
@@ -187,6 +191,12 @@ def items():
 
             valid = classs.check_valid_form(currency,amount,bought)
             allow = classs.check_allow()
+
+            if len(amount) >10 or len(bought)>10:
+                return render_template("items.html",error="Too much to calculate")
+
+
+            
             
             if valid:
                 if allow:
@@ -197,9 +207,9 @@ def items():
                     db.session.close()
                     return redirect("/items")
                 else:
-                    return render_template("items.html",object=obj,error="You Already Have 5 Items")    
+                    return render_template("items.html",object=obj[0],profit=obj[1],error="You Already Have 5 Items")    
             else:
-                return render_template("items.html",error="Form Not Valid")
+                return render_template("items.html",object=obj[0],profit=obj[1],error="Form Not Valid")
             
 
     return redirect(url_for('login'))

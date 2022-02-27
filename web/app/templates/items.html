@@ -10,8 +10,8 @@
         <option value="btc">Bitcoin</option>
         <option value="eth">Etherium</option>
     </select><br><br>
-    <label>The Amount</label><br>
-    <input type="text" id="amount" name= "amount" placeholder="Enter The Amount" name="amount"><p style="display: inline;"></p><br><br>
+    <label>Invest Price</label><br>
+    <input type="text" id="amount" name= "amount" placeholder="Enter Invest Price" name="amount"><p style="display: inline;"></p><br><br>
     <label>Bought Price</label><br>
     <input type="text" id="bought" name="bought" placeholder="Enter The Bought Price" name="bought"><p style="display: inline;">USD</p><br><br>
 
@@ -27,27 +27,46 @@
 <table>
     <tr>
         <th>Coin</th>
-        <th>Amount</th>
+        <th>Invest</th>
         <th>Bought</th>
         <th>Profit</th>
         
+
     </tr>
     
         <tr>{% if object %}
                 {% for items in object%}
-                
-                {% for item in items%}
-                    
-                    {% if item != items[0] %}
-                        <th>{{item}}</th>
-                    
-                    
+                    {% if items[1] == "btc" %}
+                        {% set icon = "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png" %}
+
+                    {% elif items[1] == "eth" %}
+                        {% set icon = "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" %}
                     {% endif %}
+                    <th><img src="{{icon}}" style="width: 22px"></th>
+                {% for item in items %}
+
+                    
+                    
+                    
+                    {% if item not in items[:2] %}
+                        <th>{{item}}</th>
+                    {% endif %}
+
                     {% endfor %}
-                    <th>{{profit}}</th>
+                    
+                    {% if profit[loop.index0] > 0 %}
+
+                        <th style="color:green;">{{profit[loop.index0]}}%</th>
+
+                    {% else %}
+
+                        <th style="color:red;">{{profit[loop.index0]}}%</th>
+
+                    {% endif %}
                     <th><a href="items/delete/{{items[0]}}"><button style="color: white; background-color: red;">Delete</button></a></th>
                 </tr>
                 {% endfor %}
+                
             {% endif %}
          
             
@@ -60,6 +79,6 @@
 {% endif %}
 
 {% if spam %}
-            <p style="text-align: center; color: red;">Dont spam the button!</p>
+    <p style="color: red;">Dont spam the button!</p>
 {% endif %}
 {% endblock body %}

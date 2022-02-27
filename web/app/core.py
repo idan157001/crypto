@@ -1,6 +1,5 @@
 from traceback import TracebackException
 from tracemalloc import Traceback
-import aiohttp
 from app.models import *
 from hashlib import sha224
 import re
@@ -9,8 +8,23 @@ import json
 import httpx
 import asyncio
 #from app.routes import user
+import time
 
+def update_price_coin_db():
+    while True:
+        get_items_cls = Get_Items('')
+        now_price = asyncio.run(get_items_cls.get_eth_btc_price())
+        for now_coins in now_price:
+            for key,value in now_coins.items():
+                coin = db.session.query(Coin_Price).filter_by(name=str(key).upper()).first()
+                if coin:
+                    coin.price = value
+                    db.session.commit()
+                    db.session.close()
+                    
         
+        time.sleep(20) # every x seconds update the db
+
 
 class Register_user():
     def __init__(self,username,password,email):
@@ -97,23 +111,37 @@ class Get_Items:
     def __init__(self,username):
         self.username = username
 
+    def get_coins_price_db(self):
+        coins = {}
+        items = db.session.query(Coin_Price).all()
+        for item in items:
+            coins.update({item.name:item.price})
+        return coins
+
     def fetch_items_from_db(self):
         crypto_Info_cls = Crypto_Info('')
         calculated_profit = []
+
         items = db.session.query(Info).filter_by(username=self.username).all()
         items = [[item.id,item.coin,item.amount,item.bought]for item in items]
-        now_price = asyncio.run(self.get_eth_btc_price())
-        for item in items:
-            if item[1] == 'btc':
-                calculated_profit.append(self.caculate_items(bought=item[3],sell=now_price[0]['btc']))
-            elif item[1] == 'eth':
-                calculated_profit.append(self.caculate_items(bought=item[3],sell=now_price[1]['eth']))
-        
+        coins = self.get_coins_price_db()
+        try:
+            for item in items:
+                print(item)
+                for name,price in coins.items():
+                    
+                    if str(item[1]).upper() == name: # ETH || BTC
+                        
+                        calculated_profit.append(crypto_Info_cls.caculate(invest=item[2],bought=item[3],sell=price)[0])
+                    
+        except TypeError:
+            return False
+        print(calculated_profit)
         return items,calculated_profit
 
     def check_allow(self):
         items = db.session.query(Info).filter_by(username=self.username).all()
-        
+        print(items)
         if len(items) < 5:
             return True
         return False
@@ -154,10 +182,10 @@ class Get_Items:
                     url = f"https://data.messari.io/api/v1/assets/{currency}/metrics"
                     tasks.append(asyncio.ensure_future(self.get_eth_btc_price_sup(client,url)))
                 r = await asyncio.gather(*tasks)
-            print(r)
             return r
-        except:
+        except Exception as e:
             print("Error!!!!!!!")
+            raise e
 
       
 

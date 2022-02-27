@@ -16,6 +16,7 @@ class Register(db.Model):
 
 
 class Info(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=False, nullable=False)
     coin = db.Column(db.String(20), unique=False, nullable=False)
@@ -24,3 +25,12 @@ class Info(db.Model):
 
     def __repr__(self):
         return f"{self.id}"
+
+class Coin_Price(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(20), unique=False, nullable=False)
+    price = db.Column(db.String(20), unique=False, nullable=False)
+
+    def __repr__(self):
+        return f"{self.name}"
