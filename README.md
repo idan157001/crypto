@@ -2,7 +2,7 @@ Crypto Coins Ethrium,Bitcoin website
 
 To run the website locally
 
-1.pip clone
+1.git clone
 
 2.pip install -r requirements.txt
 
