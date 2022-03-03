@@ -177,11 +177,12 @@ def items():
 
         obj = classs.fetch_items_from_db()   
         
+        
         if request.method == "GET":    
             if obj is False:
                 return render_template("items.html",error="Something went wrong")    
 
-            return render_template("items.html",object=obj[0],profit=obj[1])
+            return render_template("items.html",object=obj[0],percet=obj[1],items_cash=obj[2])
 
         if request.method == "POST":
             currency = request.form['currency']
@@ -193,7 +194,7 @@ def items():
             allow = classs.check_allow()
 
             if len(amount) >10 or len(bought)>10:
-                return render_template("items.html",error="Too much to calculate")
+                return render_template("items.html",object=obj[0],percet=obj[1],items_cash=obj[2],error="Too much to calculate")
 
 
             
@@ -207,9 +208,9 @@ def items():
                     db.session.close()
                     return redirect("/items")
                 else:
-                    return render_template("items.html",object=obj[0],profit=obj[1],error="You Already Have 5 Items")    
+                    return render_template("items.html",object=obj[0],percet=obj[1],items_cash=obj[2],error="You Already Have 5 Items")    
             else:
-                return render_template("items.html",object=obj[0],profit=obj[1],error="Form Not Valid")
+                return render_template("items.html",object=obj[0],percet=obj[1],items_cash=obj[2],error="Form Not Valid")
             
 
     return redirect(url_for('login'))

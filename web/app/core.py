@@ -120,28 +120,27 @@ class Get_Items:
 
     def fetch_items_from_db(self):
         crypto_Info_cls = Crypto_Info('')
-        calculated_profit = []
+        calculated_profit_percet = []
+        calculated_profit_cash = []
 
         items = db.session.query(Info).filter_by(username=self.username).all()
         items = [[item.id,item.coin,item.amount,item.bought]for item in items]
         coins = self.get_coins_price_db()
         try:
             for item in items:
-                print(item)
                 for name,price in coins.items():
                     
                     if str(item[1]).upper() == name: # ETH || BTC
                         
-                        calculated_profit.append(crypto_Info_cls.caculate(invest=item[2],bought=item[3],sell=price)[0])
+                        calculated_profit_percet.append(crypto_Info_cls.caculate(invest=item[2],bought=item[3],sell=price)[0])
+                        calculated_profit_cash.append(crypto_Info_cls.caculate(invest=item[2],bought=item[3],sell=price)[1])
                     
         except TypeError:
             return False
-        print(calculated_profit)
-        return items,calculated_profit
+        return items,calculated_profit_percet,calculated_profit_cash
 
     def check_allow(self):
         items = db.session.query(Info).filter_by(username=self.username).all()
-        print(items)
         if len(items) < 5:
             return True
         return False

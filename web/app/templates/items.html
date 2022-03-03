@@ -30,6 +30,7 @@
         <th>Invest</th>
         <th>Bought</th>
         <th>Profit</th>
+        <th>Cash</th>
         
 
     </tr>
@@ -43,28 +44,29 @@
                         {% set icon = "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" %}
                     {% endif %}
                     <th><img src="{{icon}}" style="width: 22px"></th>
+                    
                 {% for item in items %}
 
-                    
-                    
-                    
                     {% if item not in items[:2] %}
                         <th>{{item}}</th>
                     {% endif %}
 
-                    {% endfor %}
+                {% endfor %}
                     
-                    {% if profit[loop.index0] > 0 %}
+                    {% if percet[loop.index0] > 0 %}
 
-                        <th style="color:green;">{{profit[loop.index0]}}%</th>
+                        <th style="color:green;">{{percet[loop.index0]}}%</th>
 
                     {% else %}
 
-                        <th style="color:red;">{{profit[loop.index0]}}%</th>
+                        <th style="color:red;">{{percet[loop.index0]}}%</th>
 
                     {% endif %}
+                   
+                    <th>{{items_cash[loop.index0]}}</th> 
                     <th><a href="items/delete/{{items[0]}}"><button style="color: white; background-color: red;">Delete</button></a></th>
-                </tr>
+                    
+                </tr> 
                 {% endfor %}
                 
             {% endif %}
