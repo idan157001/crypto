@@ -2,17 +2,19 @@ from werkzeug.utils import redirect
 from app import app,db,limiter
 from flask import render_template,url_for,request,flash,session,escape
 from app.models import Register,Info
-from app.core import Get_Items, Login_user, Register_user,Crypto_Info,update_price_coin_db
 import requests
 import asyncio
 import json
 import time
 from datetime import timedelta
 import threading
-
 #----------------------------------------
 
+from app.core.authentication import Login_user, Register_user
+from app.core.items import Get_Items
+from app.core.basic_core import Crypto_Info,update_price_coin_db
 
+#----------------------------------------
 t = threading.Thread(target=update_price_coin_db,daemon=True)
 t.start()
 
@@ -134,7 +136,7 @@ def crypto():
                 return render_template('crypto.html',c_name=c_name,c_value=c_value,c_value_ils=c_value_ils)
             else:
                 return render_template('crypto.html')
-    
+        
     return redirect(url_for('login'))
 
 @app.route('/profit',methods=['GET','POST'])
@@ -256,10 +258,12 @@ def page_not_found(x):
 @app.errorhandler(400)
 def page_not_found(x):
     if "csrf_token" not in session:
+        
         return render_template("login.html"),400
         
     elif "username" not in session:
-        return render_template("login.html",flash("Your session is over\nPlease Relogin ","danger")),400
+        flash("Your session is over\nPlease Relogin ","danger")
+        return render_template("login.html"),400
         
 @app.errorhandler(404)
 def page_not_found(x):
