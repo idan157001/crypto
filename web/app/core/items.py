@@ -51,7 +51,7 @@ class Get_Items:
             return False
         return items,calculated_profit_percet,calculated_profit_cash
 
-    def check_allow(self):
+    def max_items_allowd(self):
         items = db.session.query(Info).filter_by(username=self.username).all()
         if len(items) < 5:
             return True

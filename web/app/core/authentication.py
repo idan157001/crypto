@@ -20,23 +20,19 @@ class Register_user():
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  
         if(re.search(regex,self.email)):   
             return True  
-        else:   
-            return False
+        
     def encrypt_password(self):
         new_password =  sha224(self.password.encode())
         new_password = (new_password.hexdigest())
         return new_password
 
     def check_uniqe(self):
-        if db.session.query(Register).filter_by(username = self.username).first() is None:
-        
-            if db.session.query(Register).filter_by(email = self.email).first() is None:
-                return True
-
-            else:
-                return 'Email already in use.' 
-        else:
+        if not db.session.query(Register).filter_by(username = self.username).first() is None:
             return 'Username already in use.'
+        if not db.session.query(Register).filter_by(email = self.email).first() is None:
+            return 'Email already in use.' 
+        
+        return        
 
 
 class Login_user(Register_user):
@@ -46,10 +42,10 @@ class Login_user(Register_user):
     
     def login_check(self):
         object = db.session.query(Register).filter_by(email=self.email).first()
-        if object is None:
+        if not object:
             return False
-        else:
-            if object.email == self.email:
-                if object.password == self.password:
-                    return object.username
-            return False
+       
+        if object.email == self.email:
+            if object.password == self.password:
+                return object.username
+        return False
