@@ -37,7 +37,7 @@
         <input type="hidden" id="email_helper" name="email_helper" oninput="submit_check()"><br><br>
 
         <label for="password">Password:</label>
-        <input type="text" id="password" name="password" oninput="submit_check()"><br><br>
+        <input type="password" id="password" name="password" oninput="submit_check()"><br><br>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         
         <input class="button" type="submit" id="submit" value="Login"disabled>
