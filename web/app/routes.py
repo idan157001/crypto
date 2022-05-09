@@ -199,7 +199,7 @@ def items():
                 return render_template("items.html",object=obj[0],percet=obj[1],items_cash=obj[2],error="Form Not Valid")
 
             if not check_max_items:
-                return render_template("items.html",object=obj[0],percet=obj[1],items_cash=obj[2],error="You Already Have 5 Items")
+                return render_template("items.html",object=obj[0],percet=obj[1],items_cash=obj[2],error="5 Item is max")
                 
             new_item = Info(username=username,coin=currency,amount=amount,bought=bought)
             db.session.add(new_item)
